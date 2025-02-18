@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "1049060303792",
+    "firebase_url": "https://gover-flutter-driver-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gover-flutter-driver",
+    "storage_bucket": "gover-flutter-driver.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049060303792:android:a0b64da55335276a522c75",
+        "android_client_info": {
+          "package_name": "com.goverdriverapp.goverdriverapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS9CY3g_s4UPA-GlMaO_sCbtsvE-2rhj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049060303792:android:09fef9ac2500a0a5522c75",
+        "android_client_info": {
+          "package_name": "com.govertuto.gover_tuto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS9CY3g_s4UPA-GlMaO_sCbtsvE-2rhj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
