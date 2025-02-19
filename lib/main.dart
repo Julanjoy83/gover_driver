@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gover_driver_app/pages/dashboard.dart';
 import 'package:gover_driver_app/pages/home_page.dart';
+import 'package:gover_driver_app/permissions/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -51,11 +52,10 @@ void main() async {
     print("Firebase déjà initialisé: \$e");
   }
 
-  await Permission.locationWhenInUse.isDenied.then((value) {
-    if(value) {
-      Permission.locationWhenInUse.request();
-    }
-  });
+  PermissionMethods permissionMethods = PermissionMethods();
+  await permissionMethods.askLocationPermission();
+  await permissionMethods.askNotificationPermission();
+
 
   runApp(const MyApp());
 }
