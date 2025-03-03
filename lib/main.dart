@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context)=> AppInfo(),
       child: MaterialApp(
-        title: 'Users App',
+        title: 'Gover Drivers App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
