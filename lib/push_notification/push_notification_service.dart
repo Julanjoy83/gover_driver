@@ -110,7 +110,7 @@ class PushNotificationService {
   Future<void> retrieveTripRequestInfo(String tripID, BuildContext context) async {
     print("[PushNotificationService] retrieveTripRequestInfo() called for tripID: $tripID");
 
-    // Show a loading dialog
+    // Affiche un dialogue de chargement
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -119,12 +119,11 @@ class PushNotificationService {
 
     DatabaseReference tripRequestsRef = FirebaseDatabase.instance.ref().child("tripRequests").child(tripID);
     tripRequestsRef.once().then((dataSnapshot) {
-      Navigator.pop(context); // dismiss loading
+      Navigator.pop(context); // Ferme le dialogue de chargement
 
-      // Log the raw data from the snapshot
+      // Log des données brutes de la course
       print("[PushNotificationService] Raw trip data: ${dataSnapshot.snapshot.value}");
 
-      // Check if data is not null
       if (dataSnapshot.snapshot.value == null) {
         print("[PushNotificationService] No trip data found for tripID: $tripID");
         return;
@@ -132,7 +131,7 @@ class PushNotificationService {
 
       Map data = dataSnapshot.snapshot.value as Map;
 
-      // Safely extract pickUpLatLng
+      // Extraction des coordonnées de pickup
       Map? pickUpMap = data["pickUpLatLng"];
       if (pickUpMap == null) {
         print("[PushNotificationService] pickUpLatLng is null");
@@ -141,7 +140,7 @@ class PushNotificationService {
       double pickUpLat = double.parse(pickUpMap["latitude"].toString());
       double pickUpLng = double.parse(pickUpMap["longitude"].toString());
 
-      // Safely extract dropOffLatLng
+      // Extraction des coordonnées de dropoff
       Map? dropOffMap = data["dropOffLatLng"];
       if (dropOffMap == null) {
         print("[PushNotificationService] dropOffLatLng is null");
@@ -150,37 +149,59 @@ class PushNotificationService {
       double dropOffLat = double.parse(dropOffMap["latitude"].toString());
       double dropOffLng = double.parse(dropOffMap["longitude"].toString());
 
-      TripDetails tripDetailsInfo = TripDetails();
-      tripDetailsInfo.pickUpLatLng = LatLng(pickUpLat, pickUpLng);
-      tripDetailsInfo.dropOffLatLng = LatLng(dropOffLat, dropOffLng);
+      // Récupération des statistiques d'inventaire depuis "inventoryStats"
+      int totalItems = 0;
+      double totalVolume = 0.0;
+      if (data["inventoryStats"] != null) {
+        Map stats = data["inventoryStats"];
+        totalItems = stats["itemCount"] ?? 0;
+        totalVolume = (stats["totalVolume"] ?? 0.0).toDouble();
+      }
 
-      // Use the correct fields for pickUp and dropOff addresses
-      tripDetailsInfo.pickAddress = data["pickUpAddress"] ?? "Unknown Pickup";
-      tripDetailsInfo.dropOffAddress = data["dropOffAddress"] ?? "Unknown Dropoff";
-      tripDetailsInfo.userName = data["userName"] ?? "Unknown";
-      tripDetailsInfo.userPhone = data["userPhone"] ?? "Unknown";
-      tripDetailsInfo.tripID = tripID;
+      // Récupération de la liste détaillée des items (stockée dans "inventory")
+      List<Map<String, dynamic>> inventoryList = [];
+      if (data["inventory"] != null) {
+        // On suppose ici que "inventory" est une liste
+        List<dynamic> list = data["inventory"];
+        for (var item in list) {
+          if (item is Map) {
+            inventoryList.add(Map<String, dynamic>.from(item));
+          }
+        }
+      }
 
-      // Log the parsed trip details
+      TripDetails tripDetailsInfo = TripDetails(
+        tripID: tripID,
+        pickUpLatLng: LatLng(pickUpLat, pickUpLng),
+        dropOffLatLng: LatLng(dropOffLat, dropOffLng),
+        pickAddress: data["pickUpAddress"] ?? "Unknown Pickup",
+        dropOffAddress: data["dropOffAddress"] ?? "Unknown Dropoff",
+        userName: data["userName"] ?? "Unknown",
+        userPhone: data["userPhone"] ?? "Unknown",
+        totalItems: totalItems,
+        totalVolume: totalVolume,
+        inventoryList: inventoryList,
+      );
+
+      // Log des détails de la course parsés
       print("[PushNotificationService] Parsed TripDetails:");
       print("  tripID: ${tripDetailsInfo.tripID}");
       print("  pickAddress: ${tripDetailsInfo.pickAddress}");
       print("  dropOffAddress: ${tripDetailsInfo.dropOffAddress}");
-      print("  pickUpLatLng: ${tripDetailsInfo.pickUpLatLng}");
-      print("  dropOffLatLng: ${tripDetailsInfo.dropOffLatLng}");
       print("  userName: ${tripDetailsInfo.userName}");
-      print("  userPhone: ${tripDetailsInfo.userPhone}");
+      print("  totalItems: ${tripDetailsInfo.totalItems}");
+      print("  totalVolume: ${tripDetailsInfo.totalVolume}");
+      print("  inventory: ${tripDetailsInfo.inventoryList}");
 
-      // Show a loading dialog
+      // Afficher le dialogue de notification avec les détails de la course
       showDialog(
         context: context,
-        builder: (BuildContext context) => NotificationDialog(tripDetailsInfo: tripDetailsInfo,),
+        builder: (BuildContext context) => NotificationDialog(tripDetailsInfo: tripDetailsInfo),
       );
-
-      // TODO: You might want to navigate to a notification dialog or trip details screen
     }).catchError((error) {
-      Navigator.pop(context); // dismiss loading if there's an error
+      Navigator.pop(context); // Ferme le dialogue en cas d'erreur
       print("[PushNotificationService] Error retrieving trip info: $error");
     });
   }
+
 }
