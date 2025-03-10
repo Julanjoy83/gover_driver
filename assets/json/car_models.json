@@ -1,0 +1,53 @@
+[
+    {
+        "modèle": "Renault Clio V",
+        "volume_coffre_m3": {
+            "version_essence": 0.391,
+            "version_diesel": 0.366,
+            "version_hybride": 0.301
+        }
+    },
+    {
+        "modèle": "Renault Zoe",
+        "volume_coffre_m3": 0.338
+    },
+    {
+        "modèle": "Renault Captur II",
+        "volume_coffre_m3": {
+            "minimum": 0.404,
+            "maximum": 0.536
+        }
+    },
+    {
+        "modèle": "Renault Mégane E-Tech Electric",
+        "volume_coffre_m3": 0.44
+    },
+    {
+        "modèle": "Renault Arkana",
+        "volume_coffre_m3": 0.48
+    },
+    {
+        "modèle": "Renault Austral",
+        "volume_coffre_m3": 0.5
+    },
+    {
+        "modèle": "Renault Scénic IV",
+        "volume_coffre_m3": 0.496
+    },
+    {
+        "modèle": "Renault Grand Scénic IV",
+        "volume_coffre_m3": 0.718
+    },
+    {
+        "modèle": "Renault Espace V",
+        "volume_coffre_m3": 0.66
+    },
+    {
+        "modèle": "Renault Kangoo III",
+        "volume_coffre_m3": 0.7
+    },
+    {
+        "modèle": "Renault Trafic III",
+        "volume_coffre_m3": 1.0
+    }
+]

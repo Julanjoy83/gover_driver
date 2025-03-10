@@ -75,7 +75,7 @@ flutter:
     - assets/final.png
     - assets/initial.png
     - assets/goverlogo.png
-
+    - assets/json/car_models.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
